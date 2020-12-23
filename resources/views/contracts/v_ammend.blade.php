@@ -12,7 +12,7 @@
             <!-- /.card-header -->
             <!-- form start -->
             <form role="form" action="/contracts/{{$contract->id}}" enctype="multipart/form-data" method="post"
-                onsubmit="return confirm('Anda yakin ingin meng Ammend ?')">
+                onsubmit="return confirm('are you sure you want to do ammend?')">
                 @method('put')
                 @csrf
                 <div class="card-body">
@@ -131,17 +131,14 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="d-flex justify-content-around">
                             <div class="form-group col-4">
                                 <label for="exampleInputFile">Upload Doc</label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        @foreach($filename as $file)
-                                        @if($file->filename==$contract->doc->filename)
                                         <input type="file" class="form-control @error('filename') is-invalid @enderror"
-                                            id="filename" name="filename" value="{{$file->filename}}">
-                                        @endif
-                                        @endforeach
+                                            id="filename" name="filename[]" multiple>
                                         @error('filename')
                                         <div class="invalid-feedback">
                                             {{$message}}
@@ -151,6 +148,18 @@
                                 </div>
                             </div>
                         </div>
+                        @foreach($filename as $file)
+                        <div class="d-flex justify-content-center" name="refresh-after-ajax" id="refresh-after-ajax">
+
+                            <div class="form-group col-4">
+                                {{$file->filename}}
+                            </div>
+                            <meta name="csrf-token" content="{{ csrf_token() }}">
+                            <a name="delete" data-id="{{ $file->id }}" class="deleteRecord">
+                                <i class="nav-icon fas fa-trash"></i>
+                            </a>
+                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <!-- /.card-body -->

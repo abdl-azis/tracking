@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Contract_history;
 use App\Models\Contract_doc;
 use File;
+use Illuminate\Support\Facades\DB;
 class ContractsController extends Controller
 {
     /**
@@ -19,9 +20,9 @@ class ContractsController extends Controller
     {
         //
         // $contracts= Contract::all();
-        $contracts= Contract::with('client')->simplePaginate(5);
+        $contracts= Contract::with('client')->get();
         // $clients= Client::all();
-        return view('contracts.v_list', compact('contracts'));
+        return view('contracts.v_index', compact('contracts'));
         //return $contracts;
     }
 
@@ -52,19 +53,31 @@ class ContractsController extends Controller
           'name' => 'required',
           'client_id' => 'required',
           'cont_num' => 'required',
-          'sign_date' => 'required',
-          'filename' => 'required|mimes:pdf,xlx,csv,doc,docx',
+         // 'sign_date' => 'required',
+          //'filename' => 'required|mimes:pdf,xlx,csv,doc,docx',
           ]);
 
-        if($request->file()){
-        $filename = time().'.'.$request->filename->getClientOriginalName();  
         $contract = Contract::create($request->all());
-        Contract_doc::create([
-        'filename' => $filename,
-        'contract_id' => $contract->id,
-        ]);
-        $request->filename->move(public_path('docs'), $filename);
+        $files = $request->file('filename');
+        if($files){
+        foreach ($files as $file) {
+             $filename = time().'.'.$file->getClientOriginalName();  
+             Contract_doc::create([
+            'filename' => $filename,
+             'contract_id' => $contract->id,
+             ]);
+             $file->move(public_path('docs'), $filename);
         }
+        //
+        }
+        // if($request->file()){
+        // $filename = time().'.'.$request->filename->getClientOriginalName();  
+        // Contract_doc::create([
+        // 'filename' => $filename,
+        // 'contract_id' => $contract->id,
+        // ]);
+        // $request->filename->move(public_path('docs'), $filename);
+        // }
          return redirect('/contracts')->with('status', 'Success add Contract!');
     //return $request;
     }
@@ -77,7 +90,10 @@ class ContractsController extends Controller
      */
     public function show(Contract $contract)
     {
-        
+        $contracts= Contract::with('doc')->get();
+        $filename =$contract->doc;
+        $clients= Client::all();
+        return view('contracts.v_show', compact('contract', 'clients', 'filename'));
     }
 
     /**
@@ -89,18 +105,12 @@ class ContractsController extends Controller
     public function edit(Contract $contract)
     {
         //
+        
         $contracts= Contract::with('doc')->get();
-        $filename = Contract_doc::all();
+        $filename =$contract->doc;
         $clients= Client::all();
-        return view('contracts.v_edit', compact('contract', 'clients', 'filename'));
-    }
-    public function ammend(Contract $contract)
-    {
-        //
-        $contracts= Contract::with('doc')->get();
-        $filename = Contract_doc::all();
-        $clients= Client::all();
-        return view('contracts.v_ammend', compact('contract', 'clients', 'filename'));
+       // return $contracts;
+    return view('contracts.v_edit', compact('contract', 'clients', 'filename'));
     }
     /**
      * Update the specified resource in storage.
@@ -113,58 +123,140 @@ class ContractsController extends Controller
     {
         //
         $request->validate([
-          'name' => 'required',
-          'client_id' => 'required',
-          'cont_num' => 'required',
-          'volume' => 'required',
+          //'name' => 'required',
+          //'client_id' => 'required',
+          //'cont_num' => 'required',
+          //'volume' => 'required',
           //'filename' => 'required',
-          'sign_date' => 'required',
-          'volume' => 'required',
-          'unit' => 'required',
-          'price' => 'required',
-          'start_date' => 'required',
-          'end_date' => 'required',
+          //'sign_date' => 'required',
+          //'volume' => 'required',
+          //'unit' => 'required',
+          //'price' => 'required',
+          //'start_date' => 'required',
+          //'end_date' => 'required',
         
          ]);
-        
-         Contract::where('id', $contract->id)
-                ->update([
-                'name' => $request->name,
-                'client_id' => $request->client_id,
-                'cont_num' => $request->cont_num,
-                'volume' => $request->volume,
-                'unit' => $request->unit,
-                'price' => $request->price,
-                'sign_date' => $request->sign_date,
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
-                ]);
-    
-        
-        $docada = $request->file();
-        $docs= Contract_doc::all();
-        
-        
-         foreach($docs as $doc){
-         if($doc->filename==$contract->doc->filename){
          
-          $contract_id= $doc->contract_id;
-          $filename= $doc->filename;
+        $dataOlds =Contract::all();
+        foreach($dataOlds as $dataold){
+            if($dataold->id==$contract->id){
+            $name= $dataold->name;
+            $client_id= $dataold->client_id;
+            $cont_num= $dataold->cont_num;
+            $sign_date= $dataold->sign_date;
+            $volume= $dataold->volume;
+            $unit = $dataold->unit;
+            $price = $dataold->price;
+            $start_date = $dataold->start_date;
+            $end_date = $dataold->end_date;
             }
         }
-         if($docada){
-          File::delete(public_path('docs/'.$filename));
-          $filename = time().'.'.$request->filename->getClientOriginalName();
-          $request->filename->move(public_path('docs'), $filename);
+         if($name != null ){
+                Contract::where('id', $contract->id)
+                ->update([
+                'name' => $name,
+                ]);
+                
+         }else{
+         Contract::where('id', $contract->id)
+                ->update(['name' => $request->name]);
          }
+         if($client_id != null ){
+                Contract::where('id', $contract->id)
+                ->update([
+                'client_id' => $client_id,
+                ]);
+                
+         }else{
+         Contract::where('id', $contract->id)
+                ->update(['client_id' => $request->client_id]);
+         }
+         if($cont_num != null ){
+                Contract::where('id', $contract->id)
+                ->update([
+                'cont_num' => $cont_num,
+                ]);
+                
+         }else{
+         Contract::where('id', $contract->id)
+                ->update(['cont_num' => $request->cont_num]);
+         }
+         if($sign_date != null ){
+                Contract::where('id', $contract->id)
+                ->update([
+                'sign_date' => $sign_date,
+                ]);
+                
+         }else{
+         Contract::where('id', $contract->id)
+                ->update(['sign_date' => $request->sign_date]);
+         }
+         if($volume != null ){
+                Contract::where('id', $contract->id)
+                ->update([
+                'volume' => $volume,
+                ]);
+                
+         }else{
+         Contract::where('id', $contract->id)
+                ->update(['volume' => $request->volume]);
+         }
+         if ($unit != null) {
+             Contract::where('id', $contract->id)
+                ->update([
+                'unit' => $unit,
+                ]);
+        }else {Contract::where('id', $contract->id)
+                ->update(['unit' => $request->unit]);
+        }
+         if ($price != null) {
+             Contract::where('id', $contract->id)
+                ->update([
+                'price' => $price,
+                ]);
+        }else {Contract::where('id', $contract->id)
+                ->update(['price' => $request->price]);
+        }
+        if ($start_date != null) {
+             Contract::where('id', $contract->id)
+                ->update([
+                'start_date' => $start_date,
+                ]);
+        }else {Contract::where('id', $contract->id)
+                ->update(['start_date' => $request->start_date]);
+        }
+         if ($end_date != null) {
+             Contract::where('id', $contract->id)
+                ->update([
+                'end_date' => $end_date,
+                ]);
+        }else {Contract::where('id', $contract->id)
+                ->update(['end_date' => $request->end_date]);
+        }
 
-        $form_data = array(
-        'filename' => $filename,
-        'contract_id' => $contract->id,
-        );
-        Contract_doc::where('contract_id', $contract->id)->update($form_data);
+        $files = $request->file('filename');
+        if($files){
+        foreach ($files as $file) {
+             $filename = time().'.'.$file->getClientOriginalName();  
+             Contract_doc::create([
+            'filename' => $filename,
+             'contract_id' => $contract->id,
+             ]);
+             $file->move(public_path('docs'), $filename);
+        }
+     
+        }
+        
         return redirect('/contracts')->with('status', 'Data Success Change!');
       
+    }
+    public function ammend(Contract $contract)
+    {
+        //
+        $contracts= Contract::with('doc')->get();
+        $filename = $contract->doc;
+        $clients= Client::all();
+        return view('contracts.v_ammend', compact('contract', 'clients', 'filename'));
     }
     public function upammend(Request $request, Contract $contract)
     {
@@ -212,28 +304,20 @@ class ContractsController extends Controller
             'updated_at'=> $contract->getOriginal('updated_at'),
 
     ]);        
-        $docada = $request->file();
-        $docs= Contract_doc::all();
-        
-         foreach($docs as $doc){
-         if($doc->filename==$contract->doc->filename){
-         
-          $contract_id= $doc->contract_id;
-          $filename= $doc->filename;
-            }
-        }
-         if($docada){
-          File::delete(public_path('docs/'.$filename));
-          $filename = time().'.'.$request->filename->getClientOriginalName();
-          $request->filename->move(public_path('docs'), $filename);
-         }
 
-        $form_data = array(
-        'filename' => $filename,
-        'contract_id' => $contract->id,
-        );
-        Contract_doc::where('contract_id', $contract->id)->update($form_data);
-        return redirect('/contracts')->with('status', 'Data Success Change!');
+        $files = $request->file('filename');
+        if($files){
+        foreach ($files as $file) {
+             $filename = time().'.'.$file->getClientOriginalName();  
+             Contract_doc::create([
+            'filename' => $filename,
+             'contract_id' => $contract->id,
+             ]);
+             $file->move(public_path('docs'), $filename);
+        }
+        
+        }
+         return redirect('/contracts')->with('status', 'Data Success Change!');
       
     }
 
@@ -247,16 +331,30 @@ class ContractsController extends Controller
     {
         //
         $docs= Contract_doc::all();
+
         foreach($docs as $doc){
             $contract_id= $doc->contract_id;
-            $filename= $doc->filename;
-        }
+            $filenames= $doc->filename;
         if($contract->id==$contract_id){
-            if(File::exists(public_path('docs/'.$filename))){
-                File::delete(public_path('docs/'.$filename));           
+            if(File::exists(public_path('docs/'.$filenames))){
+                File::delete(public_path('docs/'.$filenames));           
+                }
             }
         }
         Contract::destroy($contract->id);
         return redirect('/contracts')->with('status', 'Success Deleting Data!');
     }
+    
+     public function destroyDoc(Contract_doc $contract_doc)
+    {
+
+       // dd($contract_doc->id);
+        $file = Contract_doc::find($contract_doc->id);
+        $filename = $contract_doc->filename;
+        if(File::exists(public_path('docs/'.$filename))){
+            File::delete(public_path('docs/'.$filename));
+        }
+        Contract_doc::destroy($contract_doc->id);
+        //return redirect('/contracts')->with('status', 'Success Deleting Data!');
+    } 
 }

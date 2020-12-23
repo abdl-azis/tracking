@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\ContractsController;
+use App\Http\Controllers\Contract_docController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +25,11 @@ use App\Http\Controllers\ContractsController;
 
 
 Route:: view('/projects','v_create_project');
+//Route:: view('/operationals','contracts.v_index');
 Route:: view('/operationals','v_operational');
 Route::resource('/',ClientsController::class);
 Route::resource('/contracts',ContractsController::class);
 Route::get('/contracts/{contract}/ammend', [ContractsController::class, 'ammend']);
 Route::put('/contracts/{contract}', [ContractsController::class, 'upammend']);
+//Route::delete('/contracts/{contract}/filedelete', [ContractsController::class, 'deletefile']);
+Route::post('/contract_doc/{contract_doc}', [ContractsController::class, 'destroyDoc']);

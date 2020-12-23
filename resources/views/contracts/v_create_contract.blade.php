@@ -106,11 +106,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-around">
+                        <div class="d-flex justify-content-center">
                             <div class="form-group">
                                 <label for="filename">Upload doc</label>
                                 <input type="file" class="form-control @error('filename') is-invalid @enderror"
-                                    id="filename" name="filename" value="{{old('filename')}}">
+                                    id="filename" name="filename[]" multiple value="{{old('filename')}}">
                                 @error('filename')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -128,7 +128,4 @@
         </div>
     </div>
 </div>
-
-
-
 @endsection

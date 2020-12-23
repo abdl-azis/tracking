@@ -11,6 +11,8 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('assets/')}}/plugins/fontawesome-free/css/all.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{asset('assets/')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{asset('assets/')}}/plugins/daterangepicker/daterangepicker.css">
     <!-- Tempusdominus Bootstrap 4 -->
@@ -136,6 +138,9 @@
     <script src="{{asset('assets/')}}/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="{{asset('assets/')}}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables -->
+    <script src="{{asset('assets/')}}/plugins/datatables/jquery.dataTables.js"></script>
+    <script src="{{asset('assets/')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
     <!-- Select2 -->
     <script src="{{asset('assets/')}}/plugins/select2/js/select2.full.min.js"></script>
     <!-- InputMask -->
@@ -154,67 +159,25 @@
     <!-- Page specific script -->
     <script>
     $(function() {
-
-        //Datemask dd/mm/yyyy
-        $('#datemask').inputmask('dd/mm/yyyy', {
-            'placeholder': 'dd/mm/yyyy'
-        })
-        //Datemask2 mm/dd/yyyy
-        $('#datemask2').inputmask('mm/dd/yyyy', {
-            'placeholder': 'mm/dd/yyyy'
-        })
+        $("#example1").DataTable();
         //signdate
         $('#contractsigndate').datetimepicker({
+            useCurrent: false,
+            //disabled: true,
             format: 'YYYY-MM-DD',
         });
         //startdate
         $('#startdate').datetimepicker({
+            useCurrent: false,
             format: 'YYYY-MM-DD'
         });
         //enddate
         $('#enddate').datetimepicker({
+            useCurrent: false,
             format: 'YYYY-MM-DD'
         });
-        //Date range picker
-        $('#reservation').daterangepicker()
-        //Date range picker with time picker
-        $('#reservationtime').daterangepicker({
-            timePicker: true,
-            timePickerIncrement: 30,
-            locale: {
-                format: 'MM/DD/YYYY hh:mm A'
-            }
-        })
-
-        //Date range as a button
-        $('#daterange-btn').daterangepicker({
-                    ranges: {
-                        'Today': [moment(), moment()],
-                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                        'This Month': [moment().startOf('month'), moment().endOf('month')],
-                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
-                            'month').endOf('month')]
-                    },
-                    startDate: moment().subtract(29, 'days'),
-                    endDate: moment()
-                },
-                function(start, end) {
-                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format(
-                        'MMMM D, YYYY'))
-                }),
-            $(function() {
-                bsCustomFileInput.init();
-            });
-
-        //Timepicker
-        $('#timepicker').datetimepicker({
-            format: 'LT'
-        })
     });
     </script>
-
     <script type="text/javascript">
     var i = 0;
     $("#add-btn").click(function() {
@@ -246,22 +209,6 @@
         $(this).parents('tr').remove();
     });
     </script>
-
-    <!-- <script>
-    $('thead').on('click', '.tambah', function() {
-        var tr = '<tr>' +
-            '<td><input type="text" name="title" placeholder="Enter title" class="form-control" /></td>' +
-            '<td><input type="text" name="orang" placeholder="Enter orang" class="form-control" /></td>' +
-            '<td scope="col"><a href="javascript:;" class="btn btn-danger hapus">-</a></td>' +
-            '</tr>';
-
-        $('#tambahRow').append(tr);
-    }); 
-
-    $('tbody').on('click', '.hapus', function() {
-    $(this).parents('tr').remove();
-    })
-    </script>-->
     <script>
     function myFunction() {
         var x = document.getElementById("contra").value;
@@ -274,7 +221,31 @@
         }
     }
     </script>
+    <script>
+    $(".deleteRecord").click(function() {
+        var id = $(this).data("id");
+        var token = $("meta[name='csrf-token']").attr("content");
 
+        $.ajax({
+            url: "/contract_doc/" + id,
+            type: 'post',
+            data: {
+                "id": id,
+                "_token": token,
+            },
+            success: function() {
+                console.log("it Works");
+                location.reload();
+                //location.reload(" #refresh-after-ajax");
+                //$(this).parent('div').remove();
+                //$('#refresh-after-ajax').remove();
+                // $("#refresh-after-ajax").load(location.href + " #refresh-after-ajax");
+                // $("#refresh-after-ajax").load(" #refresh-after-ajax");
+            }
+        });
+
+    });
+    </script>
 </body>
 
 </html>

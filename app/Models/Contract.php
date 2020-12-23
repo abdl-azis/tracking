@@ -15,7 +15,7 @@ class Contract extends Model
     }
     public function doc()
     {
-    	return $this->hasOne('App\Models\contract_doc');
+    	return $this->hasMany('App\Models\contract_doc');
     }
     
     
