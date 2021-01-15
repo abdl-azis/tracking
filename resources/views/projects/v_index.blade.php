@@ -1,5 +1,5 @@
 @extends('layout.v_template')
-@section('title', 'List Contract')
+@section('title', 'List Project')
 @push('custom-css')
 <!-- DataTables -->
 <link rel="stylesheet" href="{{asset('assets/')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
@@ -15,37 +15,37 @@
         @endif
         <div class="card ">
             <div class="card-header text-right">
-                <a href="/contracts/create" class="btn btn-primary">Create Contract</a>
+                <a href="/projects/create" class="btn btn-primary">Create Project</a>
             </div>
             <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Cont. Number</th>
-                            <th>Cont. Name</th>
-                            <th>Client</th>
+                            <th>No. Contract</th>
+                            <th>Project Name</th>
+                            <th>PO. Number</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($contracts as $index => $contract)
+                        @foreach($projects as $project)
                         <tr>
                             <th class="text-center">{{$loop->iteration}}</th>
-                            <td>{{$contract->cont_num}}</td>
-                            <td>{{$contract->name}}</td>
-                            <td>{{$contract->client->name}}</td>
+                            <td>{{$project->contract_id}}</td>
+                            <td>{{$project->name}}</td>
+                            <td>{{$project->no_po}}</td>
                             <td class="text-center">
-                                <a href="/contracts/{{$contract->id}}" class="btn btn-warning">
+                                <a href="/projects/{{$project->id}}" class="btn btn-warning">
                                     <i class="nav-icon fas fa-eye"></i>
                                 </a>
-                                <a href="/contracts/{{$contract->id}}/edit" class="btn btn-primary">
+                                <a href="/projects/{{$project->id}}/edit" class="btn btn-primary">
                                     <i class="nav-icon fas fa-pen"></i>
                                 </a>
-                                <a href="/contracts/{{$contract->id}}/ammend" class="btn btn-success">
+                                <a href="/projects/{{$project->id}}/ammend" class="btn btn-success">
                                     <i class="nav-icon fas fa-clone"></i>
                                 </a>
-                                <form action="/contracts/{{$contract->id}}"
+                                <form action="/projects/{{$project->id}}"
                                     onsubmit="return confirm('Are you sure you want to delete?')" method="post"
                                     class=" d-inline">
                                     @method('delete')
@@ -61,9 +61,9 @@
                     <tfoot>
                         <tr>
                             <th>No</th>
-                            <th>Cont. Number</th>
-                            <th>Cont. Name</th>
-                            <th>Client</th>
+                            <th>No. Contract</th>
+                            <th>Project Name</th>
+                            <th>PO. Number</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>

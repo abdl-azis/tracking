@@ -1,7 +1,12 @@
 @extends('layout.v_template')
-@section('title', 'Contract')
+@section('title', 'Edit Contract')
+@push('custom-css')
+<!-- Toastr -->
+<link rel="stylesheet" href="{{asset('assets/')}}/plugins/toastr/toastr.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="{{asset('assets/')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+@endpush
 @section('content')
-
 <div class="container">
     <div class="col-md">
         <!-- general form elements -->
@@ -57,14 +62,14 @@
                             </div>
                             <div class="form-group col-4">
                                 <label>Contract Sign Date</label>
-                                <div class="input-group date" id="contractsigndate" data-target-input="nearest">
+                                <div class="input-group date" id="signdate" data-target-input="nearest">
 
                                     <input type="text"
                                         class="form-control  @error('sign_date') is-invalid @enderror datetimepicker-input"
-                                        data-target="#contractsigndate" name="sign_date" id="sign_date"
+                                        data-target="#signdate" name="sign_date" id="sign_date"
                                         value="{{old('sign_date', $contract->sign_date)}}" placeholder="dd/mm/yyyy"
                                         {{ $contract['sign_date'] ? 'disabled' : '' }} />
-                                    <div class="input-group-append" data-target="#contractsigndate"
+                                    <div class="input-group-append" data-target="#signdate"
                                         data-toggle="datetimepicker">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
@@ -140,34 +145,28 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-around">
-                            <div class="form-group col-4">
-                                <label for="exampleInputFile">Upload Doc</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="form-control @error('filename') is-invalid @enderror"
-                                            id="filename" name="filename[]" multiple>
-                                        @error('filename')
-                                        <div class="invalid-feedback">
-                                            {{$message}}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                </div>
+                        <div class="d-flex justify-content-center">
+                            <div class="form-group">
+                                <label for="filename">Upload Doc</label>
+                                <input type="file" class="form-control @error('filename') is-invalid @enderror"
+                                    id="filename" name="filename[]" value="{{old('filename')}}" multiple>
+                                @error('filename')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         @foreach($filename as $file)
                         <div class="d-flex justify-content-center" name="refresh-after-ajax" id="refresh-after-ajax">
-                            <div class="form-group col-4">
+                            <a href="{{ asset('docs') }}/{{$file->filename}}" class="form-group col-4">
                                 {{$file->filename}}
-                            </div>
+                            </a>
                         </div>
                         @endforeach
                     </div>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer mt-2 text-center">
-                    <a href="/contracts" type="submit" class="btn btn-danger ">Cancel</a>
+                    <a href="/contracts" type="submit" class="btn btn-danger ">Back</a>
                     <button type="submit" class="btn btn-primary ">Save</button>
                 </div>
             </form>
@@ -175,3 +174,39 @@
     </div>
 </div>
 @endsection
+@push('custom-js')
+<!-- Toastr -->
+<script src="{{asset('assets/')}}/plugins/toastr/toastr.min.js"></script>
+<!-- DataTables -->
+<script src="{{asset('assets/')}}/plugins/datatables/jquery.dataTables.js"></script>
+<!-- InputMask -->
+<script src="{{asset('assets/')}}/plugins/moment/moment.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{{asset('assets/')}}/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+@endpush
+@push('custom-script')
+@if (session('errorUpload'))
+<script>
+toastr.error("{{session('errorUpload')}}");
+</script>
+@endif
+<script>
+$(function() {
+    $('#signdate').datetimepicker({
+        useCurrent: false,
+        //disabled: true,
+        format: 'YYYY-MM-DD',
+    });
+    //startdate
+    $('#startdate').datetimepicker({
+        useCurrent: false,
+        format: 'YYYY-MM-DD'
+    });
+    //enddate
+    $('#enddate').datetimepicker({
+        useCurrent: false,
+        format: 'YYYY-MM-DD'
+    });
+});
+</script>
+@endpush

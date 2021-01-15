@@ -1,8 +1,9 @@
 @extends('layout.v_template')
-@section('title', 'List Contract')
+@section('title', 'List Progress Status')
 @push('custom-css')
 <!-- DataTables -->
 <link rel="stylesheet" href="{{asset('assets/')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+
 @endpush
 @section('content')
 <div class="container">
@@ -15,37 +16,32 @@
         @endif
         <div class="card ">
             <div class="card-header text-right">
-                <a href="/contracts/create" class="btn btn-primary">Create Contract</a>
+                <a href="/status/create" class="btn btn-primary">Create Project</a>
             </div>
             <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Cont. Number</th>
-                            <th>Cont. Name</th>
-                            <th>Client</th>
-                            <th>Action</th>
+                            <th width="30px">No</th>
+                            <th class="text-center">ID Number</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($contracts as $index => $contract)
+                        @foreach($progress_status as $status)
                         <tr>
-                            <th class="text-center">{{$loop->iteration}}</th>
-                            <td>{{$contract->cont_num}}</td>
-                            <td>{{$contract->name}}</td>
-                            <td>{{$contract->client->name}}</td>
+                            <th class="text-center" width="30px">{{$loop->iteration}}</th>
+                            <td class="text-center">{{$status->id}}</td>
+                            <td>{{$status->status}}</td>
                             <td class="text-center">
-                                <a href="/contracts/{{$contract->id}}" class="btn btn-warning">
+                                <a href="/progress_status/{{$status->id}}" class="btn btn-warning">
                                     <i class="nav-icon fas fa-eye"></i>
                                 </a>
-                                <a href="/contracts/{{$contract->id}}/edit" class="btn btn-primary">
+                                <a href="/progress_status/{{$status->id}}/edit" class="btn btn-primary">
                                     <i class="nav-icon fas fa-pen"></i>
                                 </a>
-                                <a href="/contracts/{{$contract->id}}/ammend" class="btn btn-success">
-                                    <i class="nav-icon fas fa-clone"></i>
-                                </a>
-                                <form action="/contracts/{{$contract->id}}"
+                                <form action="/progress_status/{{$status->id}}"
                                     onsubmit="return confirm('Are you sure you want to delete?')" method="post"
                                     class=" d-inline">
                                     @method('delete')
@@ -60,11 +56,10 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>No</th>
-                            <th>Cont. Number</th>
-                            <th>Cont. Name</th>
-                            <th>Client</th>
-                            <th>Action</th>
+                            <th width="30px">No</th>
+                            <th class="text-center">ID Number</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center"> Action</th>
                         </tr>
                     </tfoot>
                 </table>

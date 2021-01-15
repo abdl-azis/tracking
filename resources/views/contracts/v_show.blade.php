@@ -1,7 +1,6 @@
 @extends('layout.v_template')
-@section('title', 'Detail')
+@section('title', 'Detail Contract')
 @section('content')
-
 <div class="container">
     <div class="col-md">
         <!-- general form elements -->
@@ -43,13 +42,13 @@
                             </div>
                             <div class="form-group col-4">
                                 <label>Contract Sign Date</label>
-                                <div class="input-group date" id="contractsigndate" data-target-input="nearest">
+                                <div class="input-group date" id="signdate" data-target-input="nearest">
                                     <input type="text"
                                         class="form-control  @error('sign_date') is-invalid @enderror datetimepicker-input"
-                                        data-target="#contractsigndate" name="sign_date" id="sign_date"
+                                        data-target="#signdate" name="sign_date" id="sign_date"
                                         value="{{old('sign_date', $contract->sign_date)}}" placeholder="dd/mm/yyyy"
                                         disabled="disabled" />
-                                    <div class="input-group-append" data-target="#contractsigndate"
+                                    <div class="input-group-append" data-target="#signdate"
                                         data-toggle="datetimepicker">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
@@ -121,9 +120,9 @@
                         @foreach($filename as $file)
                         <div class="d-flex justify-content-center" name="refresh-after-ajax" id="refresh-after-ajax">
 
-                            <div class="form-group col-4">
+                            <a href="{{ asset('docs') }}/{{$file->filename}}" class="form-group col-4">
                                 {{$file->filename}}
-                            </div>
+                            </a>
                         </div>
                         @endforeach
                     </div>
@@ -137,3 +136,8 @@
     </div>
 </div>
 @endsection
+@push('custom-js')
+<!-- DataTables -->
+<script src="{{asset('assets/')}}/plugins/datatables/jquery.dataTables.js"></script>
+<script src="{{asset('assets/')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+@endpush

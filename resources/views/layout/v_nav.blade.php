@@ -27,6 +27,12 @@
                 <p>Operational & Cost-POxxxx</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="/progress_status" class="nav-link">
+                <i class="nav-icon fas fa-book"></i>
+                <p>Master Status</p>
+            </a>
+        </li>
     </ul>
     </li>
     </ul>

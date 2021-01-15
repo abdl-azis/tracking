@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+.fivedashedblack {
+    border: 3px dashed black;
+}
+</style>
 
 <head>
     <meta charset="utf-8">
@@ -11,16 +16,13 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('assets/')}}/plugins/fontawesome-free/css/all.min.css">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="{{asset('assets/')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+    @stack('custom-css')
     <!-- daterange picker -->
-    <link rel="stylesheet" href="{{asset('assets/')}}/plugins/daterangepicker/daterangepicker.css">
-    <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet"
-        href="{{asset('assets/')}}/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- <link rel="stylesheet" href="{{asset('assets/')}}/plugins/daterangepicker/daterangepicker.css"> -->
+
     <!-- Select2 -->
-    <link rel="stylesheet" href="{{asset('assets/')}}/plugins/select2/css/select2.min.css">
-    <link rel="stylesheet" href="{{asset('assets/')}}/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- <link rel="stylesheet" href="{{asset('assets/')}}/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="{{asset('assets/')}}/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css"> -->
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('assets/')}}/dist/css/adminlte.min.css">
 
@@ -138,30 +140,28 @@
     <script src="{{asset('assets/')}}/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="{{asset('assets/')}}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- DataTables -->
-    <script src="{{asset('assets/')}}/plugins/datatables/jquery.dataTables.js"></script>
-    <script src="{{asset('assets/')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    @stack('custom-js')
+
     <!-- Select2 -->
-    <script src="{{asset('assets/')}}/plugins/select2/js/select2.full.min.js"></script>
+    <!-- <script src="{{asset('assets/')}}/plugins/select2/js/select2.full.min.js"></script> -->
     <!-- InputMask -->
-    <script src="{{asset('assets/')}}/plugins/moment/moment.min.js"></script>
-    <script src="{{asset('assets/')}}/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <!-- <script src="{{asset('assets/')}}/plugins/inputmask/jquery.inputmask.min.js"></script> -->
     <!-- date-range-picker -->
-    <script src="{{asset('assets/')}}/plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- Tempusdominus Bootstrap 4 -->
-    <script src="{{asset('assets/')}}/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- <script src="{{asset('assets/')}}/plugins/daterangepicker/daterangepicker.js"></script> -->
+
     <!-- bs-custom-file-input -->
-    <script src="{{asset('assets/')}}/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <!-- <script src="{{asset('assets/')}}/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script> -->
     <!-- AdminLTE App -->
     <script src="{{asset('assets/')}}/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="{{asset('assets/')}}/dist/js/demo.js"></script>
+    <!-- <script src="{{asset('assets/')}}/dist/js/demo.js"></script> -->
     <!-- Page specific script -->
-    <script>
+    @stack('custom-script')
+    <!-- <script>
     $(function() {
-        $("#example1").DataTable();
+        // $("#example1").DataTable();
         //signdate
-        $('#contractsigndate').datetimepicker({
+        $('#signdate').datetimepicker({
             useCurrent: false,
             //disabled: true,
             format: 'YYYY-MM-DD',
@@ -177,75 +177,22 @@
             format: 'YYYY-MM-DD'
         });
     });
-    </script>
-    <script type="text/javascript">
-    var i = 0;
-    $("#add-btn").click(function() {
-        ++i;
-        $("#dynamicProgress").append('<tr><td><input type="text" name="moreFields[' + i +
-            '][nama]" placeholder="Enter nama" class="form-control" /></td><td><input type="text" name="moreFields[' +
-            i +
-            '][per_invoice]" placeholder="Enter per_invoice" class="form-control" /></td><td><a type="button" class="btn btn-danger remove-tr">-</a></td></tr>'
-        );
-    });
-    $(document).on('click', '.remove-tr', function() {
-        $(this).parents('tr').remove();
-    });
-    </script>
-
-    <script type="text/javascript">
-    var i = 0;
-    $("#add-btnCost").click(function() {
-        ++i;
-        $("#dynamicCosting").append('<tr><td><input type="text" name="moreFields[' + i +
-            '][nama_cost]" placeholder="Enter nama" class="form-control" /></td><td><input type="text" name="moreFields[' +
-            i +
-            '][desc_cost]" placeholder="Enter desc" class="form-control" /></td><td><input type="text" name="moreFields[' +
-            i +
-            '][cost]" placeholder="Enter cost" class="form-control" /></td><td><a type="button" class="btn btn-danger remove-tr">-</a></td></tr>'
-        );
-    });
-    $(document).on('click', '.removeCost-tr', function() {
-        $(this).parents('tr').remove();
-    });
-    </script>
-    <script>
-    function myFunction() {
-        var x = document.getElementById("contra").value;
-        if (x) {
-            //document.getElementById("demo").innerHTML = "You selected: " + x;
-            document.getElementById("demo").style.display = "none";
+    </script> -->
+    <!-- <script>
+    $('#contra').on('change', function() {
+        if ($(this).val() === "") {
+            $("#nocontract").show()
+            $("#msg").val($(this).val())
+            $("#Iscontract").hide()
         } else {
-            //document.getElementById("demo").innerHTML = "";
-            document.getElementById("demo").style.display = "block";
+            $("#nocontract").hide()
+            $("#msg").val($(this).val())
+            $("#Iscontract").show()
         }
-    }
-    </script>
-    <script>
-    $(".deleteRecord").click(function() {
-        var id = $(this).data("id");
-        var token = $("meta[name='csrf-token']").attr("content");
-
-        $.ajax({
-            url: "/contract_doc/" + id,
-            type: 'post',
-            data: {
-                "id": id,
-                "_token": token,
-            },
-            success: function() {
-                console.log("it Works");
-                location.reload();
-                //location.reload(" #refresh-after-ajax");
-                //$(this).parent('div').remove();
-                //$('#refresh-after-ajax').remove();
-                // $("#refresh-after-ajax").load(location.href + " #refresh-after-ajax");
-                // $("#refresh-after-ajax").load(" #refresh-after-ajax");
-            }
-        });
-
     });
-    </script>
+    </script> -->
+
+
 </body>
 
 </html>
