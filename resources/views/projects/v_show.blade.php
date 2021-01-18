@@ -79,12 +79,11 @@
                                             </div>
                                             <div class="form-group col-4">
                                                 <label>Contract Sign Date</label>
-                                                <div class="input-group date" id="signdate" data-target-input="nearest">
+                                                <div class="input-group date">
                                                     <input type="text" class="form-control datetimepicker-input"
-                                                        data-target="#signdate" name="sign_date" id="sign_date"
-                                                        value="no data" disabled="disabled" />
-                                                    <div class="input-group-append" data-target="#signdate"
-                                                        data-toggle="datetimepicker">
+                                                        name="sign_date" id="sign_date" value="no data"
+                                                        disabled="disabled" />
+                                                    <div class="input-group-append">
                                                         <div class="input-group-text"><i class="fa fa-calendar"></i>
                                                         </div>
                                                     </div>
@@ -111,13 +110,10 @@
                                         <div class="d-flex justify-content-around">
                                             <div class="form-group col-4">
                                                 <label>Start Date</label>
-                                                <div class="input-group date" id="startdate"
-                                                    data-target-input="nearest">
-                                                    <input type="text" class="form-control" data-target="#startdate"
-                                                        name="start_date" value="" id="start_date"
-                                                        disabled="disabled" />
-                                                    <div class="input-group-append" data-target="#startdate"
-                                                        data-toggle="datetimepicker">
+                                                <div class="input-group date">
+                                                    <input type="text" class="form-control" name="start_date" value=""
+                                                        id="start_date" disabled="disabled" />
+                                                    <div class="input-group-append">
                                                         <div class="input-group-text"><i class="fa fa-calendar"></i>
                                                         </div>
                                                     </div>
@@ -125,11 +121,10 @@
                                             </div>
                                             <div class="form-group col-4">
                                                 <label>End Date</label>
-                                                <div class="input-group date" id="enddate" data-target-input="nearest">
-                                                    <input type="text" class="form-control" data-target="#enddate"
-                                                        name="end_date" value="" id="end_date" disabled="disabled" />
-                                                    <div class=" input-group-append" data-target="#enddate"
-                                                        data-toggle="datetimepicker">
+                                                <div class="input-group date">
+                                                    <input type="text" class="form-control" name="end_date" value=""
+                                                        id="end_date" disabled="disabled" />
+                                                    <div class=" input-group-append">
                                                         <div class="input-group-text"><i class="fa fa-calendar"></i>
                                                         </div>
                                                     </div>
@@ -160,12 +155,11 @@
                         <div class="d-flex justify-content-around">
                             <div class="form-group col-4">
                                 <label>Project Sign Date</label>
-                                <div class="input-group date" id="signdate" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" data-target="#signdate"
-                                        name="po_sign_date" placeholder="dd/mm/yyyy"
+                                <div class="input-group date" id="po_sign_date" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input"
+                                        data-target="#po_sign_date" name="po_sign_date" placeholder="dd/mm/yyyy"
                                         value="{{old('po_sign_date', $project->po_sign_date)}}" disabled="disabled" />
-                                    <div class="input-group-append" data-target="#signdate"
-                                        data-toggle="datetimepicker">
+                                    <div class="input-group-append">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
                                 </div>
@@ -180,24 +174,23 @@
                         <div class="d-flex justify-content-around">
                             <div class="form-group col-4">
                                 <label>Start Date</label>
-                                <div class="input-group date" id="startdate" data-target-input="nearest">
+                                <div class="input-group date" id="po_start_date" data-target-input="nearest">
                                     <input type="text" class="form-control datetimepicker-input"
-                                        data-target="#startdate" name="po_start_date"
+                                        data-target="#po_start_date" name="po_start_date"
                                         value="{{old('po_start_date', $project->po_start_date)}}"
                                         placeholder="dd/mm/yyyy" disabled="disabled" />
-                                    <div class="input-group-append" data-target="#startdate"
-                                        data-toggle="datetimepicker">
+                                    <div class="input-group-append">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group col-4">
                                 <label>End Date</label>
-                                <div class="input-group date" id="enddate" data-target-input="nearest">
+                                <div class="input-group date" id="po_end_date" data-target-input="nearest">
                                     <input type="text" name="po_end_date" class="form-control datetimepicker-input"
-                                        data-target="#enddate" value="{{old('po_end_date', $project->po_end_date)}}"
+                                        data-target="#po_end_date" value="{{old('po_end_date', $project->po_end_date)}}"
                                         disabled="disabled" placeholder="dd/mm/yyyy" />
-                                    <div class="input-group-append" data-target="#enddate" data-toggle="datetimepicker">
+                                    <div class="input-group-append">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
                                 </div>

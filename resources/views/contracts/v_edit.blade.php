@@ -3,8 +3,9 @@
 @push('custom-css')
 <!-- Toastr -->
 <link rel="stylesheet" href="{{asset('assets/')}}/plugins/toastr/toastr.min.css">
-<!-- DataTables -->
-<link rel="stylesheet" href="{{asset('assets/')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet"
+    href="{{asset('assets/')}}/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
 @endpush
 @section('content')
 <div class="container">
@@ -135,8 +136,7 @@
                                         data-target="#enddate" name="end_date" placeholder="YYYY-MM-DD"
                                         value="{{old('end_date', $contract->end_date)}}"
                                         {{ $contract['end_date'] ? 'disabled' : '' }} />
-                                    <div class=" input-group-append" data-target="#enddate"
-                                        data-toggle="datetimepicker">
+                                    <div class="input-group-append" data-target="#enddate" data-toggle="datetimepicker">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
                                     @error('end_date')
@@ -194,15 +194,12 @@ toastr.error("{{session('errorUpload')}}");
 $(function() {
     $('#signdate').datetimepicker({
         useCurrent: false,
-        //disabled: true,
         format: 'YYYY-MM-DD',
     });
-    //startdate
     $('#startdate').datetimepicker({
         useCurrent: false,
         format: 'YYYY-MM-DD'
     });
-    //enddate
     $('#enddate').datetimepicker({
         useCurrent: false,
         format: 'YYYY-MM-DD'

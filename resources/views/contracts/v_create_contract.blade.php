@@ -23,7 +23,7 @@
                     <div class="form">
                         <div class="d-flex justify-content-around">
                             <div class="form-group col-4">
-                                <label for="name">Contract Name</label>
+                                <label for="name">Contract Name</label><label style="color:#dc3545;">*</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                                     name="name" value="{{old('name')}}" placeholder="Enter name">
                                 @error('name')
@@ -31,7 +31,7 @@
                                 @enderror
                             </div>
                             <div class="form-group col-4">
-                                <label>Client</label>
+                                <label>Client</label><label style="color:#dc3545;">*</label>
                                 <select name="client_id" class="form-control @error('client_id') is-invalid @enderror">
                                     <option value="">--option--</option>
                                     @foreach($clients as $client)
@@ -47,7 +47,7 @@
                         </div>
                         <div class="d-flex justify-content-around">
                             <div class="form-group col-4">
-                                <label for="cont_num">No. Contract</label>
+                                <label for="cont_num">No. Contract</label><label style="color:#dc3545;">*</label>
                                 <input type="number" class="form-control @error('cont_num') is-invalid @enderror"
                                     id="cont_num" name="cont_num" value="{{old('cont_num')}}"
                                     placeholder="Enter No. Contract">
