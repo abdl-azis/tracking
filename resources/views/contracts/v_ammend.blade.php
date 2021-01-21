@@ -138,25 +138,31 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-around">
+                        <div class="d-flex justify-content-center">
                             <div class="form-group col-4">
-                                <label for="exampleInputFile">Upload Doc</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="form-control @error('filename') is-invalid @enderror"
-                                            id="filename" name="filename[]" multiple>
-                                        @error('filename')
-                                        <div class="invalid-feedback">
-                                            {{$message}}
-                                        </div>
-                                        @enderror
-                                    </div>
+                                <label for="filename">Upload Doc</label>
+                                <input type="file" class="form-control @error('filename') is-invalid @enderror"
+                                    id="filename" name="filename[]" multiple>
+                                @error('filename')
+                                <div class="invalid-feedback">
+                                    {{$message}}
                                 </div>
+                                @enderror
+                            </div>
+                            <div class="form-group col-4"></div>
+                            <div class="form-group col-2">
+                                <label for="edit_by">Edit by</label><label style="color:#dc3545;">*</label>
+                                <input type="number" class="form-control @error('edit_by') is-invalid @enderror"
+                                    id="edit_by" name="edit_by" value="{{old('edit_by')}}">
+                                @error('edit_by')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
                             </div>
                         </div>
                         @foreach($filename as $file)
                         <div class="d-flex justify-content-center" name="refresh-after-ajax" id="refresh-after-ajax">
-
                             <a href="{{ asset('docs') }}/{{$file->filename}}" class="form-group col-4">
                                 {{$file->filename}}
                             </a>

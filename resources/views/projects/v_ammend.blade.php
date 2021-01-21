@@ -221,6 +221,19 @@
                                     id="total_price" placeholder="Rp." onchange="math()">
                             </div>
                         </div>
+                        <div class="d-flex justify-content-center">
+                            <div class="form-group col-4"></div>
+                            <div class="form-group col-2">
+                                <label for="edit_by">Edit by</label><label style="color:#dc3545;">*</label>
+                                <input type="number" class="form-control @error('edit_by') is-invalid @enderror"
+                                    id="edit_by" name="edit_by" value="{{old('edit_by')}}">
+                                @error('edit_by')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="card-header mt-4 d-flex justify-content-center ">
                             <h3 class="card-title font-weight-bold">Progress</h3>
                         </div>
@@ -390,8 +403,9 @@ $(document).on('click', '.removeItem-tr', function() {
                 "id": id,
                 "_token": token,
             },
-            success: function() {
-                console.log("it Works");
+            success: function(data) {
+                console.log(data);
+                //location.reload();
             }
         });
 

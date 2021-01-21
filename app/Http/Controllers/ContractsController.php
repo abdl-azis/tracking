@@ -46,6 +46,7 @@ class ContractsController extends Controller
         'name' => 'required',
         'client_id' => 'required',
         'cont_num' => 'required',
+        'created_by' => 'required',
         ]);
         $validator = Validator::make($request->all(), [
         'filename.*' => 'required|mimes:pdf,xlx,csv,doc,docx',
@@ -126,6 +127,7 @@ class ContractsController extends Controller
                 $price = $dataold->price;
                 $start_date = $dataold->start_date;
                 $end_date = $dataold->end_date;
+                $created_by = $dataold->created_by;
             }
         }
         if($name != null ){
@@ -214,6 +216,15 @@ class ContractsController extends Controller
             Contract::where('id', $contract->id)
             ->update(['end_date' => $request->end_date]);
         }
+        if ($created_by != null) {
+            Contract::where('id', $contract->id)
+            ->update([
+            'created_by' => $created_by,
+            ]);
+        }else {
+            Contract::where('id', $contract->id)
+            ->update(['created_by' => $request->created_by]);
+        }
 
         $files = $request->file('filename');
         if($files){
@@ -242,6 +253,7 @@ class ContractsController extends Controller
           'name' => 'required',
           'client_id' => 'required',
           'cont_num' => 'required',
+          'edit_by' => 'required',
         ]);
         $validator = Validator::make($request->all(), [
         'filename.*' => 'required|mimes:pdf,xlx,csv,doc,docx',
@@ -263,6 +275,7 @@ class ContractsController extends Controller
                 'sign_date' => $request->sign_date,
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
+                'created_by' => $request->edit_by,
                 ]);
         $contract->getOriginal();
         Contract_history::create([
@@ -276,7 +289,9 @@ class ContractsController extends Controller
             'sign_date' => $contract->getOriginal('sign_date'),
             'start_date' => $contract->getOriginal('start_date'),
             'end_date' => $contract->getOriginal('end_date'),
+            'created_by'=>$contract->getOriginal('created_by'),
             'created_at'=>$contract->getOriginal('created_at'),
+            'edit_by'=>$request->edit_by,
             'updated_at'=> $contract->getOriginal('updated_at'),
 
             ]);        

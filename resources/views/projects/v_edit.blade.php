@@ -225,6 +225,16 @@
                                     {{ $project['total_price'] ? 'disabled' : '' }}>
                             </div>
                         </div>
+                        <div class="d-flex justify-content-center">
+                            <div class="form-group col-4"></div>
+                            <div class="form-group col-2">
+                                <label for="created_by">Created by</label>
+                                <input type="number" class="form-control @error('created_by') is-invalid @enderror"
+                                    id="created_by" name="created_by"
+                                    value="{{old('created_by', $contract->created_by)}}"
+                                    {{ $contract['created_by'] ? 'disabled' : '' }}>
+                            </div>
+                        </div>
                         <div class="card-header mt-4 d-flex justify-content-center ">
                             <h3 class="card-title font-weight-bold">Progress</h3>
                         </div>
@@ -242,10 +252,12 @@
                             @foreach($progress_item as $progress)
                             <tr>
                                 <td>
+                                    <!-- <input type="hidden" name=progress_id[]
+                                        value="{{old('progress_id[]', $progress->id)}}" /> -->
                                     <input type="text" name="name_progress[]"
                                         value="{{old('name_progress[]', $progress->name_progress)}}"
                                         placeholder="Enter name" class="form-control"
-                                        {{ $progress['name_progress'] || $progress['payment_percentage'] ? 'disabled' : '' }} />
+                                        {{ $progress['name_progress']  ? 'disabled' : '' }} />
                                 </td>
                                 <td><input type="text" name="payment_percentage[]"
                                         value="{{old('payment_percentage[]', $progress->payment_percentage)}}"

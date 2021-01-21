@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Progress_item;
 use App\Models\Project_cost;
 use App\Models\Project_history;
+use App\Models\Progress_item_history;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -51,7 +52,8 @@ class ProjectsController extends Controller
     {
        $request->validate([
           'name' => 'required',
-          'volume_use' => 'nullable|integer|min:1'
+          'volume_use' => 'nullable|integer|min:1',
+          'created_by' => 'required',
        ]);
 
        $dataPayment = $request->payment_percentage;
@@ -130,6 +132,7 @@ class ProjectsController extends Controller
                      'po_end_date' => $request->po_end_date,
                      'price' => $request->price,
                      'total_price' => $request->total_price,
+                     'created_by' => $request->created_by,
        ]);
        }
        if($request->filled($request->name_progress)){
@@ -267,6 +270,7 @@ class ProjectsController extends Controller
                      $price = $dataold->price;
                      $volume_use = $dataold->volume_use;
                      $total_price = $dataold->total_price;
+                     $created_by= $dataold->created_by;
               }
        }
        $dataAllVolume =Project::where('contract_id', $contract_id)->get();
@@ -387,6 +391,13 @@ class ProjectsController extends Controller
               Project::where('id', $project->id)
               ->update(['total_price' => $request->total_price]);
        }
+       if($created_by != null ){
+              Project::where('id', $project->id)
+              ->update(['created_by' => $created_by,]); 
+       }else{
+              Project::where('id', $project->id)
+              ->update(['created_by' => $request->created_by]);
+       }
        
        if($request->filled($request->name_progress)){
        }else {
@@ -401,6 +412,28 @@ class ProjectsController extends Controller
                      }    
               }
        }
+       // jika edit payment null dan name ada isinya
+       // if($request->filled($request->name_progress)){
+       // foreach ($request->payment_percentage as $key=>$payment_percentage) {
+       // if ($request->filled($request->progress_id[$key])) {
+       // }else {
+       //                     Progress_item::where('id', $request->progress_id[$key])
+       //                             ->update([ 'payment_percentage' => $payment_percentage,]);
+       //               }
+       // }
+       // }else {
+       //        foreach ($request->name_progress as $key=>$progress_item) {
+       //               if($request->filled($progress_item)){
+       //               }else {
+       //                      Progress_item::create([
+       //                      'project_id' => $project->id,
+       //                      'name_progress' => $progress_item,
+       //                      'payment_percentage' => $request->payment_percentage[$key],
+       //                      ]);            
+                     
+       //               }    
+       //        }
+       // }
        if($request->filled($request->name_cost)){
        }else {
               foreach ($request->name_cost as $key=>$project_cost) {
@@ -433,6 +466,7 @@ class ProjectsController extends Controller
         $request->validate([
            'name' => 'required',
            'volume_use' => 'nullable|integer|min:1',        
+           'edit_by' => 'required',
          ]);
        
        $getitem=Progress_item::where('project_id', $project->id)->get();
@@ -443,6 +477,8 @@ class ProjectsController extends Controller
        $minPayment = 0;
        $payment_percentage = $getitem->sum('payment_percentage');
        $dataCost = $request->total_cost;
+       $totalAllPayment = $totalPayment + $payment_percentage;
+       //return $totalAllPayment;
        $rules = [];
     
        if($dataPayment != 0){
@@ -456,17 +492,18 @@ class ProjectsController extends Controller
                                    ->withInput();
               }
        }
-
        if($totalPayment != 0){
               if($payment_percentage != $maxPayment){
-                     if($totalPayment!=$maxPayment) {
+                     if($totalAllPayment!=$maxPayment) {
                             return back()->withInput()->with('statusProgress', 'The total of all invoices must be 100%');
                      }
               }else{
                      return back()->withInput()->with('statusProgress', 'The total of all invoices must be 100%. Delete rows.');
               }
        }
-       
+       if($totalAllPayment != 100){
+              return back()->withInput()->with('statusProgress', 'The total of all invoices must be 100%');
+       }
        if($dataCost != 0){
               foreach($request->input('total_cost') as $key => $value) {
                      $rules["total_cost.{$key}"] = 'nullable|integer|min:1';
@@ -535,8 +572,11 @@ class ProjectsController extends Controller
               'price' => $request->price,
               'volume_use' => $request->volume_use,
               'total_price' => $request->total_price,
+              'created_by' => $request->edit_by,
               ]);
        }
+
+       $progressOlds =Progress_item::where('project_id', $project->id)->get();
        if($request->filled($request->name_progress)){
        }else {
               foreach ($request->name_progress as $key=>$progress_item) {
@@ -549,7 +589,29 @@ class ProjectsController extends Controller
                             ]);            
                      }
               }
+              
        }
+
+       foreach ($progressOlds as $progressOld) {
+              $progress_idOld = $progressOld->id;
+              $projectid_Old = $progressOld->project_id;
+              $name_progressOld = $progressOld->name_progress;
+              $payment_percentageOld = $progressOld->payment_percentage;
+              $status_idOld = $progressOld->status_id;
+              $created_atOld = $progressOld->created_at;
+              $update_atOld = $progressOld->updated_at;
+       Progress_item_history::create([
+              'progress_item_id' =>$progress_idOld,
+              'project_id' =>$projectid_Old,
+              'name_progress' =>$name_progressOld,
+              'payment_percentage' =>$payment_percentageOld,
+              'status_id' =>$status_idOld,
+              'created_at'=>$created_atOld,
+              'updated_at'=> $update_atOld,
+       ]);
+       }
+
+
        if($request->filled($request->name_cost)){
        }else {       
               foreach ($request->name_cost as $key=>$project_cost) {
@@ -573,7 +635,9 @@ class ProjectsController extends Controller
               'po_end_date' => $request->po_end_date,
               'price' => $request->price,
               'volume_use' => $request->volume_use,
-              'total_price' => $request->total_price,]);
+              'total_price' => $request->total_price,
+              'created_by' => $request->edit_by,
+              ]);
 
        $project->getOriginal();
        Project_history::create([
@@ -587,6 +651,8 @@ class ProjectsController extends Controller
             'price' => $project->getOriginal('price'),
             'volume_use' => $project->getOriginal('volume_use'),
             'total_price' => $project->getOriginal('total_price'),
+            'created_by'=>$project->getOriginal('created_by'),
+            'edit_by'=>$request->edit_by,
             'created_at'=>$project->getOriginal('created_at'),
             'updated_at'=> $project->getOriginal('updated_at'),
        ]);

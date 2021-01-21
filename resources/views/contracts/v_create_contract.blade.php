@@ -113,10 +113,20 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <div class="form-group">
+
+                            <div class="form-group col-4">
                                 <label for="filename">Upload doc</label>
                                 <input type="file" class="form-control @error('filename') is-invalid @enderror"
                                     id="filename" name="filename[]" multiple value="{{old('filename')}}">
+                            </div>
+                            <div class="form-group col-4"></div>
+                            <div class="form-group col-2">
+                                <label for="created_by">Created by</label><label style="color:#dc3545;">*</label>
+                                <input type="number" class="form-control @error('created_by') is-invalid @enderror"
+                                    id="created_by" name="created_by" value="{{old('created_by')}}">
+                                @error('created_by')
+                                <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>

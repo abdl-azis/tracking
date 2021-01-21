@@ -146,13 +146,21 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <div class="form-group">
+                            <div class="form-group col-4">
                                 <label for="filename">Upload Doc</label>
                                 <input type="file" class="form-control @error('filename') is-invalid @enderror"
                                     id="filename" name="filename[]" value="{{old('filename')}}" multiple>
                                 @error('filename')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
+                            </div>
+                            <div class="form-group col-4"></div>
+                            <div class="form-group col-2">
+                                <label for="created_by">Created by</label>
+                                <input type="number" class="form-control @error('created_by') is-invalid @enderror"
+                                    id="created_by" name="created_by"
+                                    value="{{old('created_by', $contract->created_by)}}"
+                                    {{ $contract['created_by'] ? 'disabled' : '' }}>
                             </div>
                         </div>
                         @foreach($filename as $file)
