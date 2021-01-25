@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <div class="form">
                         <div class="d-flex justify-content-center">
-                            <table class="table table-bordered " id="refresh-after-ajax">
+                            <table class="table table-bordered" id="refresh-after-ajax">
                                 <tr>
                                     <th class="text-center">Operational & Progress</th>
                                     <th class="text-center">Progress</th>
@@ -91,11 +91,11 @@
                             </tr>
                             @endforeach
                         </table>
-                        <div class=" card-header mt-4 d-flex justify-content-center ">
+                        <div class=" card-header mt-4 d-flex justify-content-center">
                             <h3 class=" card-title font-weight-bold">Costing</h3>
                         </div>
                         @if (session('statusCost'))
-                        <div class="alert alert-danger  d-flex justify-content-center ">
+                        <div class="alert alert-danger  d-flex justify-content-center">
                             {{ session('statusCost') }}
                         </div>
                         @endif
@@ -145,7 +145,7 @@
                 <!-- /.card-body -->
                 <div class="card-footer mt-2">
                     <div class="text-center">
-                        <a href="/operationals" type="submit" class="btn btn-danger ">Back</a>
+                        <a href="/operationals" type="submit" class="btn btn-danger">Back</a>
                         <button type="submit" class="btn btn-primary">Submit Cost</button>
                     </div>
                 </div>
@@ -176,7 +176,7 @@
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" id="status0" onclick="$('#upload_modal_form').submit();"
+                    <button type="submit" onclick="$('#upload_modal_form').submit();"
                         class="btn btn-primary">Submit</button>
                 </div>
             </div>

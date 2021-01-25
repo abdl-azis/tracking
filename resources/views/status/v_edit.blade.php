@@ -33,8 +33,8 @@
                     </div>
                 </div>
                 <div class="card-footer mt-2 text-center">
-                    <a href="/progress_status" type="submit" class="btn btn-danger ">Back</a>
-                    <button type="submit" class="btn btn-primary ">Submit</button>
+                    <a href="/progress_status" type="submit" class="btn btn-danger">Back</a>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>

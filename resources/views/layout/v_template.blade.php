@@ -4,6 +4,11 @@
 .fivedashedblack {
     border: 3px dashed black;
 }
+
+/* untuk menghilangkan spinner  */
+.spinner {
+    display: none;
+}
 </style>
 
 <head>

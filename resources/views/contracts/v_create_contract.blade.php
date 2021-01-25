@@ -17,7 +17,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form role="form" action="/contracts" method="post" enctype="multipart/form-data">
+            <form id="myFormId" role="form" action="/contracts" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                     <div class="form">
@@ -75,18 +75,19 @@
                         <div class="d-flex justify-content-center">
                             <div class="form-group col-4">
                                 <label for="volume">Volume</label>
-                                <input type="text" class="form-control" id="volume" name="volume"
-                                    placeholder="Enter volume">
+                                <input type="number" class="form-control" id="volume" name="volume"
+                                    placeholder="Enter volume" value="{{old('volume')}}">
                             </div>
                             <div class="form-group col-2">
                                 <label for="unit">Unit</label>
                                 <input type="text" class="form-control" id="unit" name="unit"
-                                    placeholder="ex: Mandays...">
+                                    placeholder="ex: Mandays..." value="{{old('unit')}}">
                             </div>
 
                             <div class="form-group col-4">
-                                <label for="paire">Price</label>
-                                <input type="number" class="form-control" id="paire" name="price" placeholder="Rp.">
+                                <label for="price">Price</label>
+                                <input type="number" class="form-control" value="{{old('price')}}" id="price"
+                                    name="price" placeholder="Rp.">
                             </div>
                         </div>
                         <div class="d-flex justify-content-around">
@@ -94,7 +95,8 @@
                                 <label>Start Date</label>
                                 <div class="input-group date" id="startdate" data-target-input="nearest">
                                     <input type="text" class="form-control datetimepicker-input"
-                                        data-target="#startdate" name="start_date" placeholder="YYYY-MM-DD" />
+                                        data-target="#startdate" value="{{old('start_date')}}" name="start_date"
+                                        placeholder="YYYY-MM-DD" />
                                     <div class="input-group-append" data-target="#startdate"
                                         data-toggle="datetimepicker">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -105,7 +107,7 @@
                                 <label>End Date</label>
                                 <div class="input-group date" id="enddate" data-target-input="nearest">
                                     <input type="text" class="form-control datetimepicker-input" data-target="#enddate"
-                                        name="end_date" placeholder="YYYY-MM-DD" />
+                                        name="end_date" placeholder="YYYY-MM-DD" value="{{old('end_date')}}" />
                                     <div class="input-group-append" data-target="#enddate" data-toggle="datetimepicker">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
@@ -113,11 +115,10 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">
-
                             <div class="form-group col-4">
                                 <label for="filename">Upload doc</label>
                                 <input type="file" class="form-control @error('filename') is-invalid @enderror"
-                                    id="filename" name="filename[]" multiple value="{{old('filename')}}">
+                                    id="filename" name="filename[]" value="{{old('filename')}}" multiple>
                             </div>
                             <div class="form-group col-4"></div>
                             <div class="form-group col-2">
@@ -133,8 +134,8 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer mt-2 text-center">
-                    <a href="/contracts" type="submit" class="btn btn-danger ">Back</a>
-                    <button type="submit" class="btn btn-primary ">Submit</button>
+                    <a href="/contracts" type="submit" class="btn btn-danger">Back</a>
+                    <button id="myButtonID" type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
@@ -152,6 +153,14 @@
 <script src="{{asset('assets/')}}/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 @endpush
 @push('custom-script')
+<script>
+$('#myFormId').submit(function() {
+    $("#myButtonID", this)
+        .html("Please Wait...")
+        .attr('disabled', 'disabled');
+    return true;
+});
+</script>
 @if (session('errorUpload'))
 <script>
 toastr.error("{{session('errorUpload')}}");

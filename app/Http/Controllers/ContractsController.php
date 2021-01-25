@@ -45,8 +45,8 @@ class ContractsController extends Controller
         $request->validate([
         'name' => 'required',
         'client_id' => 'required',
-        'cont_num' => 'required',
-        'created_by' => 'required',
+        'cont_num' => 'required|integer|min:1',
+        'created_by' => 'required|integer|min:1',
         ]);
         $validator = Validator::make($request->all(), [
         'filename.*' => 'required|mimes:pdf,xlx,csv,doc,docx',
@@ -252,8 +252,8 @@ class ContractsController extends Controller
         $request->validate([
           'name' => 'required',
           'client_id' => 'required',
-          'cont_num' => 'required',
-          'edit_by' => 'required',
+          'cont_num' => 'required|integer|min:1',
+          'edit_by' => 'required|integer|min:1',
         ]);
         $validator = Validator::make($request->all(), [
         'filename.*' => 'required|mimes:pdf,xlx,csv,doc,docx',

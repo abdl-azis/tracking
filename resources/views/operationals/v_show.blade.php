@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <div class="form">
                         <div class="d-flex justify-content-center">
-                            <table class="table table-bordered " id="refresh-after-ajax">
+                            <table class="table table-bordered" id="refresh-after-ajax">
                                 <tr>
                                     <th class="text-center">Operational & Progress</th>
                                     <th class="text-center">Progress</th>
@@ -82,7 +82,7 @@
                             </tr>
                             @endforeach
                         </table>
-                        <div class=" card-header mt-4 d-flex justify-content-center ">
+                        <div class=" card-header mt-4 d-flex justify-content-center">
                             <h3 class=" card-title font-weight-bold">Costing</h3>
                         </div>
                         <table class="table table-borderless d-flex justify-content-center" id="dynamicCosting">
@@ -115,7 +115,7 @@
                 <!-- /.card-body -->
                 <div class="card-footer mt-2">
                     <div class="text-center">
-                        <a href="/operationals" type="submit" class="btn btn-danger ">Back</a>
+                        <a href="/operationals" type="submit" class="btn btn-danger">Back</a>
                     </div>
                 </div>
             </form>

@@ -15,7 +15,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form role="form" action="/projects/{{$project->id}}" method="post">
+            <form id="myFormId" role="form" action="/projects/{{$project->id}}" method="post">
                 @method('patch')
                 @csrf
                 <div class="card-body">
@@ -76,7 +76,7 @@
                                         <div class="d-flex justify-content-around">
                                             <div class="form-group col-4">
                                                 <label for="cont_num">No. Contract</label>
-                                                <input type="number" class="form-control " id="cont_num" name="cont_num"
+                                                <input type="number" class="form-control" id="cont_num" name="cont_num"
                                                     value="" disabled="disabled">
                                             </div>
                                             <div class="form-group col-4">
@@ -152,9 +152,12 @@
                             </div>
                             <div class="form-group col-4">
                                 <label for=no_po>No. PO</label>
-                                <input type="number" class="form-control" name="no_po" id="no_po"
-                                    value="{{old('no_po', $project->no_po)}}" {{ $project['no_po'] ? 'disabled' : '' }}
-                                    placeholder="Enter no. po">
+                                <input type="number" class="form-control  @error('no_po') is-invalid @enderror"
+                                    name="no_po" id="no_po" value="{{old('no_po', $project->no_po)}}"
+                                    {{ $project['no_po'] ? 'disabled' : '' }} placeholder="Enter no. po">
+                                @error('no_po')
+                                <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="d-flex justify-content-around">
@@ -235,11 +238,11 @@
                                     {{ $contract['created_by'] ? 'disabled' : '' }}>
                             </div>
                         </div>
-                        <div class="card-header mt-4 d-flex justify-content-center ">
+                        <div class="card-header mt-4 d-flex justify-content-center">
                             <h3 class="card-title font-weight-bold">Progress</h3>
                         </div>
                         @if (session('statusProgress'))
-                        <div class="alert alert-danger  d-flex justify-content-center ">
+                        <div class="alert alert-danger  d-flex justify-content-center">
                             {{ session('statusProgress') }}
                         </div>
                         @endif
@@ -287,7 +290,7 @@
                             <h3 class="card-title font-weight-bold">Costing</h3>
                         </div>
                         @if (session('statusCost'))
-                        <div class="alert alert-danger  d-flex justify-content-center ">
+                        <div class="alert alert-danger  d-flex justify-content-center">
                             {{ session('statusCost') }}
                         </div>
                         @endif
@@ -336,8 +339,8 @@
                     </div>
                 </div>
                 <div class="card-footer mt-5 text-center">
-                    <a href="/projects" type="submit" class="btn btn-danger ">Back</a>
-                    <button type="submit" class="btn btn-primary ">Save</button>
+                    <a href="/projects" type="submit" class="btn btn-danger">Back</a>
+                    <button id="myButtonID" type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>
@@ -353,6 +356,14 @@
 <script src="{{asset('assets/')}}/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 @endpush
 @push('custom-script')
+<script>
+$('#myFormId').submit(function() {
+    $("#myButtonID", this)
+        .html("Please Wait...")
+        .attr('disabled', 'disabled');
+    return true;
+});
+</script>
 <script>
 $(function() {
     $('#po_sign_date').datetimepicker({

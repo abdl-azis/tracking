@@ -52,6 +52,7 @@ class ProjectsController extends Controller
     {
        $request->validate([
           'name' => 'required',
+          'no_po' => 'nullable|integer|min:1',
           'volume_use' => 'nullable|integer|min:1',
           'created_by' => 'required',
        ]);
@@ -211,6 +212,7 @@ class ProjectsController extends Controller
     public function update(Request $request, Project $project)
     {
        $request->validate([
+          'no_po' => 'nullable|integer|min:1',
           'volume_use' => 'nullable|integer|min:1',
        ]);
        $dataPayment = $request->payment_percentage;
@@ -465,6 +467,7 @@ class ProjectsController extends Controller
         //
         $request->validate([
            'name' => 'required',
+           'no_po' => 'nullable|integer|min:1',
            'volume_use' => 'nullable|integer|min:1',        
            'edit_by' => 'required',
          ]);
@@ -501,9 +504,7 @@ class ProjectsController extends Controller
                      return back()->withInput()->with('statusProgress', 'The total of all invoices must be 100%. Delete rows.');
               }
        }
-       if($totalAllPayment != 100){
-              return back()->withInput()->with('statusProgress', 'The total of all invoices must be 100%');
-       }
+       
        if($dataCost != 0){
               foreach($request->input('total_cost') as $key => $value) {
                      $rules["total_cost.{$key}"] = 'nullable|integer|min:1';
@@ -579,14 +580,18 @@ class ProjectsController extends Controller
        $progressOlds =Progress_item::where('project_id', $project->id)->get();
        if($request->filled($request->name_progress)){
        }else {
-              foreach ($request->name_progress as $key=>$progress_item) {
-                     if($request->filled($progress_item)){
-                     }else {
-                            Progress_item::create([
-                            'project_id' => $project->id,
-                            'name_progress' => $progress_item,
-                            'payment_percentage' => $request->payment_percentage[$key],
-                            ]);            
+              if($totalAllPayment != 100){
+                     return back()->withInput()->with('statusProgress', 'The total of all invoices must be 100%');
+              }else{
+                     foreach ($request->name_progress as $key=>$progress_item) {
+                            if($request->filled($progress_item)){
+                            }else {
+                                   Progress_item::create([
+                                   'project_id' => $project->id,
+                                   'name_progress' => $progress_item,
+                                   'payment_percentage' => $request->payment_percentage[$key],
+                                   ]);            
+                            }
                      }
               }
               

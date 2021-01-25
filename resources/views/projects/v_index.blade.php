@@ -13,7 +13,7 @@
             {{ session('status') }}
         </div>
         @endif
-        <div class="card ">
+        <div class="card">
             <div class="card-header text-right">
                 <a href="/projects/create" class="btn btn-primary">Create Project</a>
             </div>

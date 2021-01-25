@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="card-footer mt-2 text-center">
-                    <button type="submit" class="btn btn-primary ">Back</button>
+                    <button type="submit" class="btn btn-primary">Back</button>
                 </div>
             </form>
         </div>

@@ -36,7 +36,7 @@
                         <div class="d-flex justify-content-around">
                             <div class="form-group col-4">
                                 <label for="cont_num">No. Contract</label>
-                                <input type="number" class="form-control " id="cont_num" name="cont_num"
+                                <input type="number" class="form-control" id="cont_num" name="cont_num"
                                     value="{{old('cont_num', $contract->cont_num)}}" placeholder="Enter No. Contract"
                                     disabled="disabled">
                             </div>
@@ -58,7 +58,7 @@
                         <div class="d-flex justify-content-center">
                             <div class="form-group col-4">
                                 <label for="volume">Volume</label>
-                                <input type="text" class="form-control" id="volume" name="volume"
+                                <input type="number" class="form-control" id="volume" name="volume"
                                     value="{{old('volume', $contract->volume)}}" placeholder="Enter volume"
                                     disabled="disabled">
                             </div>
@@ -129,7 +129,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer mt-2 text-center">
-                    <a href="/contracts" type="submit" class="btn btn-danger ">Back</a>
+                    <a href="/contracts" type="submit" class="btn btn-danger">Back</a>
                 </div>
             </form>
         </div>

@@ -14,7 +14,7 @@
             {{ session('status') }}
         </div>
         @endif
-        <div class="card ">
+        <div class="card">
             <div class="card-header text-right">
                 <a href="/status/create" class="btn btn-primary">Create Project</a>
             </div>

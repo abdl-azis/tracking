@@ -17,8 +17,8 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form role="form" action="/contracts/{{$contract->id}}" enctype="multipart/form-data" method="post"
-                onsubmit="return confirm('are you sure you want to do ammend?')">
+            <form id="myFormId" role="form" action="/contracts/{{$contract->id}}" enctype="multipart/form-data"
+                method="post" onsubmit="return confirm('are you sure you want to do ammend?')">
                 @method('put')
                 @csrf
                 <div class="card-body">
@@ -78,7 +78,7 @@
                         <div class="d-flex justify-content-center">
                             <div class="form-group col-4">
                                 <label for="volume">Volume</label>
-                                <input type="text" class="form-control @error('volume') is-invalid @enderror"
+                                <input type="number" class="form-control @error('volume') is-invalid @enderror"
                                     id="volume" name="volume" value="{{old('volume', $contract->volume)}}"
                                     placeholder="Enter volume">
                                 @error('volume')
@@ -142,7 +142,7 @@
                             <div class="form-group col-4">
                                 <label for="filename">Upload Doc</label>
                                 <input type="file" class="form-control @error('filename') is-invalid @enderror"
-                                    id="filename" name="filename[]" multiple>
+                                    id="filename" name="filename[]" value="{{old('filename')}}" multiple>
                                 @error('filename')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -176,8 +176,8 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer mt-2 text-center">
-                    <a href="/contracts" type="submit" class="btn btn-danger ">Back</a>
-                    <button type="submit" class="btn btn-primary ">Save</button>
+                    <a href="/contracts" type="submit" class="btn btn-danger">Back</a>
+                    <button id="myButtonID" type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>
@@ -195,6 +195,14 @@
 <script src="{{asset('assets/')}}/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 @endpush
 @push('custom-script')
+<script>
+$('#myFormId').submit(function() {
+    $("#myButtonID", this)
+        .html("Please Wait...")
+        .attr('disabled', 'disabled');
+    return true;
+});
+</script>
 @if (session('errorUpload'))
 <script>
 toastr.error("{{session('errorUpload')}}");

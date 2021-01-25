@@ -17,7 +17,8 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form role="form" action="/contracts/{{$contract->id}}" method="post" enctype="multipart/form-data">
+            <form id="myFormId" role="form" action="/contracts/{{$contract->id}}" method="post"
+                enctype="multipart/form-data">
                 @method('patch')
                 @csrf
                 <div class="card-body">
@@ -84,7 +85,7 @@
                             <div class="form-group col-4">
                                 <label for="volume">Volume</label>
 
-                                <input type="text" class="form-control @error('volume') is-invalid @enderror"
+                                <input type="number" class="form-control @error('volume') is-invalid @enderror"
                                     id="volume" name="volume" value="{{old('volume', $contract->volume)}}"
                                     placeholder="Enter volume" {{ $contract['volume'] ? 'disabled' : '' }}>
                                 @error('volume')
@@ -174,8 +175,8 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer mt-2 text-center">
-                    <a href="/contracts" type="submit" class="btn btn-danger ">Back</a>
-                    <button type="submit" class="btn btn-primary ">Save</button>
+                    <a href="/contracts" type="submit" class="btn btn-danger">Back</a>
+                    <button id="myButtonID" type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>
@@ -198,6 +199,14 @@
 toastr.error("{{session('errorUpload')}}");
 </script>
 @endif
+<script>
+$('#myFormId').submit(function() {
+    $("#myButtonID", this)
+        .html("Please Wait...")
+        .attr('disabled', 'disabled');
+    return true;
+});
+</script>
 <script>
 $(function() {
     $('#signdate').datetimepicker({

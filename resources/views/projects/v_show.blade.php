@@ -74,7 +74,7 @@
                                         <div class="d-flex justify-content-around">
                                             <div class="form-group col-4">
                                                 <label for="cont_num">No. Contract</label>
-                                                <input type="number" class="form-control " id="cont_num" name="cont_num"
+                                                <input type="number" class="form-control" id="cont_num" name="cont_num"
                                                     value="" disabled="disabled">
                                             </div>
                                             <div class="form-group col-4">
@@ -214,11 +214,11 @@
                                     id="total_price" placeholder="Rp." onchange="math()" disabled="disabled">
                             </div>
                         </div>
-                        <div class="card-header mt-4 d-flex justify-content-center ">
+                        <div class="card-header mt-4 d-flex justify-content-center">
                             <h3 class="card-title font-weight-bold">Progress</h3>
                         </div>
                         @if (session('status'))
-                        <div class="alert alert-danger  d-flex justify-content-center ">
+                        <div class="alert alert-danger  d-flex justify-content-center">
                             {{ session('status') }}
                         </div>
                         @endif
@@ -272,7 +272,7 @@
                     </div>
                 </div>
                 <div class="card-footer mt-5 text-center">
-                    <a href="/projects" type="submit" class="btn btn-danger ">Back</a>
+                    <a href="/projects" type="submit" class="btn btn-danger">Back</a>
                 </div>
             </form>
         </div>
